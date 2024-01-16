@@ -33,12 +33,12 @@ function App() {
 
 			{/* List */}
 			<section className="mt-6">
-				<h2 className="text-xl text-zinc-300 font-semibold">List:</h2>
+				<h2 className="text-2xl text-zinc-300 font-semibold">List:</h2>
 				<ul className="shadow overflow-hidden">
 					<li className="border-b border-gray-600">
 						<div className="py-5">
 							<div className="flex items-center justify-between">
-								<h3 className="text-lg leading-6 font-medium">
+								<h3 className="text-base">
 									Esta es una tarea muy importante
 								</h3>
 							</div>
@@ -52,7 +52,7 @@ function App() {
 					<li className="border-b border-gray-600">
 						<div className="py-5">
 							<div className="flex items-center justify-between">
-								<h3 className="text-lg leading-6 font-medium">
+								<h3 className="text-base">
 									Esta es una tarea muy importante
 								</h3>
 							</div>
@@ -64,7 +64,8 @@ function App() {
 						</div>
 					</li>
 				</ul>
-			</section>
+      </section>
+      
 		</main>
 	);
 }
