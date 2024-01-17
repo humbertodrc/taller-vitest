@@ -49,7 +49,7 @@ function App() {
 
 			{/* Form */}
 			<section>
-				<form onSubmit={handleSubmit} className="flex flex-col pb-4">
+				<form onSubmit={handleSubmit} className="flex flex-col pb-4" aria-label='Añadir elementos a la lista'>
 					<div>
 						<label className="text-base" htmlFor="todo">
 							Add a new todo
