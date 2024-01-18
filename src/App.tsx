@@ -25,7 +25,11 @@ function App() {
 		setItems([newItem, ...items]);
 
 		// Limpiar el input
-		form.reset();
+		const input = form.querySelector('input[name="todo"]');
+		const isInput = input instanceof HTMLInputElement;
+		if (isInput) {
+			input.value = '';
+		}
 
 	};
 
