@@ -278,6 +278,7 @@ referencia: https://es.reactjs.org/docs/hooks-custom.html
 Metodos a utilizar:
 
 - renderHook: renderiza un hook en un componente de prueba.
+- rerender: actualiza el hook.
 - act: ejecuta efectos secundarios en el hook.
 
 Pasos para probar un custom hook:
@@ -289,3 +290,23 @@ Pasos para probar un custom hook:
 5. Para actualizar el hook podemos ejecutar el result.current y llamar a los metodos que nos provee el hook. Esto debe estar envuelto en un act, ya que estamos ejecutando efectos secundarios.
 
 referencia: https://react-hooks-testing-library.com/usage/basic-hooks
+
+Ejemplo:
+
+```typescript
+import { describe, expect, test } from 'vitest';
+import { renderHook, act } from '@testing-library/react'
+import { useCounter } from './useCounter'
+
+describe('useCounter', () => {
+  test('should increment counter', () => {
+    const { result } = renderHook(() => useCounter())
+
+    act(() => {
+      result.current.increment()
+    })
+
+    expect(result.current.count).toBe(1)
+  })
+})
+``` 
