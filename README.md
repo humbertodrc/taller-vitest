@@ -260,3 +260,26 @@ const form = screen.getByRole('form')
 
 const button = form.querySelector('button')
 ```
+
+## Hacer pruebas en custom hooks
+
+¿Que es un custom hook?
+
+Un custom hook es una función que utiliza otras funciones de React, como useState, useEffect, useContext, etc. Los custom hooks nos permiten reutilizar lógica entre componentes.
+
+referencia: https://es.reactjs.org/docs/hooks-custom.html
+
+Metodos a utilizar:
+
+- renderHook: renderiza un hook en un componente de prueba.
+- act: ejecuta efectos secundarios en el hook.
+
+Pasos para probar un custom hook:
+
+1. Importar renderHook y act de RTL.
+2. Importar el custom hook a probar.
+3. Ejecutar el hook con renderHook, se le debe pasar una función que retorne el hook a probar.
+4. Esto nos devuelve un objeto con el resultado del hook (result) y una función para actualizar el hook (rerender). Para ver el resultado del hook podemos acceder a result.current.
+5. Para actualizar el hook podemos ejecutar el result.current y llamar a los metodos que nos provee el hook. Esto debe estar envuelto en un act, ya que estamos ejecutando efectos secundarios.
+
+referencia: https://react-hooks-testing-library.com/usage/basic-hooks
