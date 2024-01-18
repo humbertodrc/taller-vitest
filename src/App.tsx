@@ -20,7 +20,12 @@ function App() {
 		addItem(todo);
 
 		// Limpiar el input
-		form.reset();
+		// Limpiar el input
+		const input = form.querySelector('input[name="todo"]');
+		const isInput = input instanceof HTMLInputElement;
+		if (isInput) {
+			input.value = '';
+		}
 
 	};
 
