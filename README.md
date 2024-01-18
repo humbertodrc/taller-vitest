@@ -52,7 +52,7 @@ En el archivo package.json agregar el siguiente script:
 
 ### Crear primer test de ejemplo
 
-En la carpeta src crear la carpeta test y dentro de ella el archivo App.test.tsx con el siguiente contenido:
+Crear la carpeta test, la idea es que su estructura sea parecida a la de src y dentro de ella el archivo App.test.tsx con el siguiente contenido:
 
 ```typescript
 import { describe, test, expect } from 'vitest'
@@ -103,26 +103,10 @@ React Testing Library es una biblioteca de utilidades de prueba liviana y simple
 
 referencia: https://testing-library.com/docs/react-testing-library/intro/
 
-## Simular un usuario real
-
-¿Que hace user-event de RTL?
-
-user-event es una biblioteca que contiene una colección de funciones que simulan eventos del usuario. Estas funciones se pueden usar para probar cómo un usuario interactuaría con su aplicación.
-
-referencia: https://testing-library.com/docs/user-event/intro
-
-instalar dependencia:
+Instalar dependencia:
 
 ```bash
-npm install @testing-library/user-event -D
-```
-
-Creamos el usuario de prueba en el archivo App.test.tsx
-
-```typescript
-import userEvent from '@testing-library/user-event'
-
-const user = userEvent.setup()
+npm install @testing-library/react -D
 ```
 
 ## Seleccionar elementos
@@ -261,6 +245,28 @@ const form = screen.getByRole('form')
 const button = form.querySelector('button')
 ```
 
+## Simular un usuario real
+
+¿Que hace user-event de RTL?
+
+user-event es una biblioteca que contiene una colección de funciones que simulan eventos del usuario. Estas funciones se pueden usar para probar cómo un usuario interactuaría con su aplicación.
+
+referencia: https://testing-library.com/docs/user-event/intro
+
+instalar dependencia:
+
+```bash
+npm install @testing-library/user-event -D
+```
+
+Creamos el usuario de prueba en el archivo App.test.tsx
+
+```typescript
+import userEvent from '@testing-library/user-event'
+
+const user = userEvent.setup()
+```
+
 ## Hacer pruebas en custom hooks
 
 ¿Que es un custom hook?
@@ -272,6 +278,7 @@ referencia: https://es.reactjs.org/docs/hooks-custom.html
 Metodos a utilizar:
 
 - renderHook: renderiza un hook en un componente de prueba.
+- rerender: actualiza el hook.
 - act: ejecuta efectos secundarios en el hook.
 
 Pasos para probar un custom hook:
@@ -283,3 +290,23 @@ Pasos para probar un custom hook:
 5. Para actualizar el hook podemos ejecutar el result.current y llamar a los metodos que nos provee el hook. Esto debe estar envuelto en un act, ya que estamos ejecutando efectos secundarios.
 
 referencia: https://react-hooks-testing-library.com/usage/basic-hooks
+
+Ejemplo:
+
+```typescript
+import { describe, expect, test } from 'vitest';
+import { renderHook, act } from '@testing-library/react'
+import { useCounter } from './useCounter'
+
+describe('useCounter', () => {
+  test('should increment counter', () => {
+    const { result } = renderHook(() => useCounter())
+
+    act(() => {
+      result.current.increment()
+    })
+
+    expect(result.current.count).toBe(1)
+  })
+})
+``` 
