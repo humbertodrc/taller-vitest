@@ -1,10 +1,13 @@
-import {useState} from "react";
 import "./App.css";
-import { Item } from './interface/todo';
+import { Form } from './components/Form';
+import { List } from './components/List';
+import { Message } from './components/Message';
+import { useItemsList } from './hooks/useItemsList';
 
 
 function App() {
-	const [items, setItems] = useState<Item[]>([]);
+	
+	const {items, removeItem, addItem } =useItemsList();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -14,15 +17,7 @@ function App() {
 		const formData = new FormData(form);
 		const todo = formData.get('todo') as string;
 
-		// Crear un nuevo item
-		const newItem: Item = {
-			id: crypto.randomUUID(),
-			timestamp: new Date(),
-			text: todo,
-		};
-
-		// Agregar el item a la lista
-		setItems([newItem, ...items]);
+		addItem(todo);
 
 		// Limpiar el input
 		form.reset();
@@ -31,11 +26,7 @@ function App() {
 
 	const handleDelete = (id: string) => {
 		return () => {
-			// Filtrar los items que no coincidan con el id
-			const newItems = items.filter((item) => item.id !== id);
-
-			// Actualizar la lista de items
-			setItems(newItems);
+			removeItem(id);
 		};
 	};
 
@@ -49,62 +40,16 @@ function App() {
 
 			{/* Form */}
 			<section>
-				<form onSubmit={handleSubmit} className="flex flex-col pb-4" aria-label='Añadir elementos a la lista'>
-					<div>
-						<label className="text-base" htmlFor="todo">
-							Add a new todo
-						</label>
-						<input
-							className="w-full h-12 px-4 mt-1 text-lg text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline"
-							type="text"
-							id="todo"
-							name="todo"
-							placeholder="Create a new todo"
-						/>
-					</div>
-					<div className="flex justify-end mt-2">
-						<button
-							type="submit"
-							className="h-10 px-5 m-2 text-gray-100 transition-colors duration-150 bg-gray-700 rounded-xl focus:shadow-outline hover:bg-gray-800"
-						>
-							Add
-						</button>
-					</div>
-				</form>
+				<Form handleSubmit={handleSubmit} />
 			</section>
 
 			{/* List */}
 			<section className="mt-6">
 				<h2 className="text-2xl text-zinc-300 font-semibold">List:</h2>
 				{items.length === 0 ? (
-					<p>
-						<strong>
-							There are no items in the list, please add a new item.
-						</strong>
-					</p>
+					<Message />
 				) : (
-					<ul className="shadow overflow-hidden">
-						{items.map((item) => (
-							<li key={item.id} className="border-b border-gray-600">
-								<div className="py-5">
-									<div className="flex items-center justify-between">
-										<h3 className="text-base">{item.text}</h3>
-										<span className="text-sm text-gray-500">
-											{item.timestamp.toLocaleDateString()}
-										</span>
-									</div>
-									<div className="mt-4 flex items-center justify-end">
-										<button
-											className="font-medium text-red-600 hover:text-red-500 border border-red-600 h-10 px-5 rounded-xl"
-											onClick={handleDelete(item.id)}
-										>
-											Delete
-										</button>
-									</div>
-								</div>
-							</li>
-						))}
-					</ul>
+					<List items={items} handleDelete={handleDelete} />
 				)}
 			</section>
 
